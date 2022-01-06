@@ -1,18 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import YoutubeEmbed from "../components/YoutubeEmbed";
 import styled from "styled-components";
 
+import {
+  fetchTrending,
+  fetchCoinList,
+  fetchGlobalMarketCap,
+} from "../actions";
 import Widget from "../components/Widget";
 import Infobar from "../components/Infobar";
 import Itemlist from "../components/Itemlist";
 import Pagination from "../components/Pagination";
 import cryptoWidget from "../images/crypto-widget.jpg";
+import cryptoNewsWidget from "../images/cryptoNews.jpeg";
+import nftWidget from "../images/nft.jpeg";
+import metaverseWidget from "../images/metaverse.jpeg";
 
+// Styled Components
 const InfoWidget = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: whitesmoke;
-  width: 16rem;
+  width: 18rem;
+  height: 7rem;
   border-radius: 1rem;
   padding-right: 0.5rem;
 
@@ -24,16 +36,80 @@ const InfoWidget = styled.div`
   }
 `;
 
+const InfoTab = styled.div`
+  display: flex;
+  padding: 0 1rem 1rem 1rem;
+  border-bottom: 1px solid gray;
+
+  @media (min-width: 440px) {
+    justify-content: center;
+    padding: 0 0 1rem 0;
+  }
+`;
+
 function Home() {
+  // Set up dispatch & state to send & receive
+  // data to/from redux store
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state);
+
+  useEffect(() => {
+    dispatch(fetchTrending());
+    dispatch(fetchGlobalMarketCap());
+    dispatch(fetchCoinList());
+  }, [dispatch]);
+
+  console.log(state.coingecko);
+
+  /* Initialize Coingecko variables */
+  const globalCoins = state.coingecko.globalCap.data;
+  const activeCoins = globalCoins.active_cryptocurrencies;
+  const mcPercentage = globalCoins.market_cap_percentage;
+  const mcPercentageChangeUSD =
+    globalCoins.market_cap_change_percentage_24h_usd;
+
+  const mcCurrentPercentage = parseFloat(mcPercentageChangeUSD.toFixed(2));
+  const mcIcon = parseFloat(mcPercentageChangeUSD.toFixed(2)) > 0 ? "⤴" : "⤵";
+  const mcColor =
+    parseFloat(mcPercentageChangeUSD.toFixed(2)) > 0
+      ? "text-green-500"
+      : "text-red-500";
+  const dominantCoin = Object.keys(mcPercentage)
+    .reduce((a, b) => (mcPercentage[a] > mcPercentage[b] ? a : b))
+    .toUpperCase();
+
+  Object.keys(mcPercentage).reduce((a, b) =>
+    mcPercentage[a] > mcPercentage[b] ? a : b
+  );
+
   return (
     <div>
+      <InfoTab className="mb-5 space-x-5 md:space-x-12 whitespace-nowrap overflow-x-scroll">
+        <p className="">
+          {/* Render all active crypto coins */}
+          Cryptocurrencies: {activeCoins}
+        </p>
+        <p>
+          {/* Render the dominant coin with percentage */}
+          Dominance: {dominantCoin}{" "}
+          {Math.max(...Object.values(mcPercentage)).toFixed(2)}%
+        </p>
+        {/* Render 24h changed market cap with dynamic color */}
+        <p className={`${mcColor}`}>
+          24h MC: {mcCurrentPercentage}% {mcIcon}
+        </p>
+      </InfoTab>
       <section className="m-auto w-60 sm:w-80 md:w-[30rem] mb-10">
         <h1 className="mb-2">Welcome to CryptoCoin</h1>
         <h2>Check crypto prices, news and learn about cryptocurrency.</h2>
       </section>
 
-      <section className="flex space-x-12 sm:space-x-16 mb-20 px-6   whitespace-nowrap overflow-x-scroll">
-        <a href="/">
+      <section className="flex space-x-12 sm:space-x-16 mb-20 px-6 whitespace-nowrap overflow-x-scroll">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.forbes.com/advisor/investing/what-is-cryptocurrency/"
+        >
           <InfoWidget>
             <img
               className="w-32 sm:w-full sm:h-36 h-full rounded-lg sm:rounded-xl"
@@ -41,64 +117,72 @@ function Home() {
               src={cryptoWidget}
             />
             <div className=" sm:ml-0 sm:w-48 sm:text-center">
-              <p>Learn BTC</p>
-              <p>what is BTC?</p>
+              <p>Learn Crypto</p>
+              <p>what is Cryptocurrency?</p>
             </div>
           </InfoWidget>
         </a>
 
         <a href="/">
           <InfoWidget>
-            <img
-              className="w-32 sm:w-full sm:h-36 h-full rounded-lg sm:rounded-xl"
-              alt="crypto coins"
-              src={cryptoWidget}
-            />
+            <YoutubeEmbed embedId="nHhAEkG1y2U" />
             <div className=" sm:ml-0 sm:w-48 sm:text-center">
-              <p>Learn BTC</p>
-              <p>what is BTC?</p>
+              <p>Web 3 Guide</p>
+              <p>what is Web 3.0?</p>
             </div>
           </InfoWidget>
         </a>
 
-        <a href="/">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://cryptonews.com/"
+        >
           <InfoWidget>
             <img
               className="w-32 sm:w-full sm:h-36 h-full rounded-lg sm:rounded-xl"
               alt="crypto coins"
-              src={cryptoWidget}
+              src={cryptoNewsWidget}
             />
             <div className=" sm:ml-0 sm:w-48 sm:text-center">
-              <p>Learn BTC</p>
-              <p>what is BTC?</p>
+              <p>Crypto News</p>
+              <p>Get the latest News</p>
             </div>
           </InfoWidget>
         </a>
 
-        <a href="/">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.investopedia.com/non-fungible-tokens-nft-5115211"
+        >
           <InfoWidget>
             <img
               className="w-32 sm:w-full sm:h-36 h-full rounded-lg sm:rounded-xl"
               alt="crypto coins"
-              src={cryptoWidget}
+              src={nftWidget}
             />
             <div className=" sm:ml-0 sm:w-48 sm:text-center">
-              <p>Learn BTC</p>
-              <p>what is BTC?</p>
+              <p>Learn NFT</p>
+              <p>what are NFT's?</p>
             </div>
           </InfoWidget>
         </a>
 
-        <a href="/">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.wired.com/story/what-is-the-metaverse/"
+        >
           <InfoWidget>
             <img
               className="w-32 sm:w-full sm:h-36 h-full rounded-lg sm:rounded-xl"
               alt="crypto coins"
-              src={cryptoWidget}
+              src={metaverseWidget}
             />
             <div className=" sm:ml-0 sm:w-48 sm:text-center">
-              <p>Learn BTC</p>
-              <p>what is BTC?</p>
+              <p>Metaverse Guide</p>
+              <p>what is Metaverse?</p>
             </div>
           </InfoWidget>
         </a>
@@ -106,10 +190,13 @@ function Home() {
 
       <section>
         <h1 className="text-center mb-10">Check out the latest trends.</h1>
-        <div className="flex justify-around">
-          <Widget />
-          <Widget />
-          <Widget />
+        <div className="flex md:justify-center px-5 space-x-5 whitespace-nowrap overflow-x-scroll">
+          <Widget
+            heading={"Trending 🚀"}
+            props={state.coingecko.trending.coins}
+          />
+          <Widget props={state.coingecko.trending.coins} />
+          <Widget props={state.coingecko.trending.coins} />
         </div>
       </section>
 

@@ -3,6 +3,8 @@ import Navbar from "./Navbar";
 import styled from "styled-components";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 
+// Styled Components
+
 const BurgerMenu = styled.div`
   border: 2px solid black;
   cursor: pointer;
