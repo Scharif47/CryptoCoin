@@ -11,7 +11,7 @@ const Element = styled.p`
   }
 `;
 
-function Infobar() {
+function SectionBar() {
   return (
     <div className='flex space-x-5 sm:space-x-10 justify-center mb-1'>
       <Element>Cryptocurrency</Element>
@@ -22,4 +22,4 @@ function Infobar() {
   )
 }
 
-export default Infobar
+export default SectionBar

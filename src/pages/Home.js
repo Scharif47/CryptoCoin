@@ -5,11 +5,13 @@ import styled from "styled-components";
 
 import {
   fetchTrending,
-  fetchCoinList,
+  fetchGainList,
   fetchGlobalMarketCap,
+  fetchExchangeList,
+  fetchCoinList,
 } from "../actions";
 import Widget from "../components/Widget";
-import Infobar from "../components/Infobar";
+import SectionBar from "../components/SectionBar";
 import Itemlist from "../components/Itemlist";
 import Pagination from "../components/Pagination";
 import cryptoWidget from "../images/crypto-widget.jpg";
@@ -56,13 +58,19 @@ function Home() {
   useEffect(() => {
     dispatch(fetchTrending());
     dispatch(fetchGlobalMarketCap());
-    dispatch(fetchCoinList());
+    dispatch(fetchGainList());
+    dispatch(fetchExchangeList());
+    dispatch(fetchCoinList())
   }, [dispatch]);
 
   console.log(state.coingecko);
 
   /* Initialize Coingecko variables */
   const globalCoins = state.coingecko.globalCap.data;
+  const { gainList, coinList, trending, exchangeList } = state.coingecko;
+
+
+
   const activeCoins = globalCoins.active_cryptocurrencies;
   const mcPercentage = globalCoins.market_cap_percentage;
   const mcPercentageChangeUSD =
@@ -77,10 +85,6 @@ function Home() {
   const dominantCoin = Object.keys(mcPercentage)
     .reduce((a, b) => (mcPercentage[a] > mcPercentage[b] ? a : b))
     .toUpperCase();
-
-  Object.keys(mcPercentage).reduce((a, b) =>
-    mcPercentage[a] > mcPercentage[b] ? a : b
-  );
 
   return (
     <div>
@@ -188,21 +192,18 @@ function Home() {
         </a>
       </section>
 
-      <section>
+      <section className="widgets">
         <h1 className="text-center mb-10">Check out the latest trends.</h1>
         <div className="flex md:justify-center px-5 space-x-5 whitespace-nowrap overflow-x-scroll">
-          <Widget
-            heading={"Trending 🚀"}
-            props={state.coingecko.trending.coins}
-          />
-          <Widget props={state.coingecko.trending.coins} />
-          <Widget props={state.coingecko.trending.coins} />
+          <Widget heading={"Trending 🚀"} trending={trending.coins} />
+          <Widget heading={"Exchanges ⚖️"} exchangeList={exchangeList} />
+          <Widget heading={"Gainers 📈"} gainList={gainList} />
         </div>
       </section>
 
       <main>
-        <Infobar />
-        <Itemlist />
+        <SectionBar />
+        <Itemlist coinList={coinList} />
         <Pagination />
       </main>
     </div>
