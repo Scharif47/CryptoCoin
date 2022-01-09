@@ -1,7 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Itemlist({ coinList }) {
-  console.log(coinList);
+
 
   return (
     <div className="overflow-x-auto">
@@ -17,20 +18,22 @@ function Itemlist({ coinList }) {
         </thead>
 
         {coinList.map((coin, i) => (
-          <tbody>
+          <tbody key={coin.id}>
             <tr>
               <th>{i + 1}</th>
-              <td>
-                {" "}
-                <img
-                  className=" w-5 inline-block mr-2"
-                  src={coin.image}
-                  alt=""
-                />
-                {coin.name}{" "}
-                <span className="text-gray-400">
-                  {coin.symbol.toUpperCase()}
-                </span>
+              <td className="hover:bg-gray-100">
+                <Link to={`/coins/${coin.id}`}>
+                  {" "}
+                  <img
+                    className=" w-5 inline-block mr-2"
+                    src={coin.image}
+                    alt=""
+                  />
+                  {coin.name}{" "}
+                  <span className="text-gray-400">
+                    {coin.symbol.toUpperCase()}
+                  </span>
+                </Link>
               </td>
               <td>${coin.current_price.toLocaleString()}</td>
               <td

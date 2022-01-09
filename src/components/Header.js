@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import Navbar from "./Navbar";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
+import Navbar from "./Navbar";
 
 // Styled Components
-
 const BurgerMenu = styled.div`
   border: 2px solid black;
   cursor: pointer;
@@ -37,7 +37,9 @@ function Header() {
     <header className="h-20">
       <HeaderBar>
         <BurgerMenu onClick={BurgerMenuHandler}>{renderIcon}</BurgerMenu>
-        <p className="">CryptoCoin</p>
+        <Link to="/">
+          <p className="">CryptoCoin</p>
+        </Link>
       </HeaderBar>
 
       <Navbar isOpen={isOpen} />

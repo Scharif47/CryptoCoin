@@ -63,7 +63,7 @@ function Home() {
     dispatch(fetchCoinList())
   }, [dispatch]);
 
-  console.log(state.coingecko);
+  /* console.log(state.coingecko); */
 
   /* Initialize Coingecko variables */
   const globalCoins = state.coingecko.globalCap.data;
