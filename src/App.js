@@ -11,10 +11,10 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path=":pageId" element={<Home />} />
         <Route path="coins" element={<Coins />}>
           <Route path=":coinId" element={<Coin />} />
         </Route>
-        <Route path="*" element={<h1>There is nothing here.</h1>} />
       </Routes>
       <Footer />
     </div>

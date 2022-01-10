@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import { btc } from "../utils/btc";
 
 // Initialstate for coingecko Reducer
 const initialState = {
@@ -105,6 +106,7 @@ const initialState = {
       last_updated: "loading",
     },
   ],
+  coinData: btc,
 };
 
 // Create Reducer
@@ -120,6 +122,8 @@ const coingeckoReducer = (state = initialState, action) => {
       return { ...state, gainList: action.payload };
     case "COINSFETCHED":
       return { ...state, coinList: action.payload };
+    case "COINDATAFETCHED":
+      return { ...state, coinData: action.payload };
     default:
       return state;
   }

@@ -1,14 +1,31 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-function Pagination() {
+function Pagination({ pageId }) {
+  const getPageNum = (urlId = "page=1") => Number(urlId.match(/=\s*(.*)$/)[1]);
+
+  const pId = getPageNum(pageId);
+
   return (
     <div className="btn-group flex justify-center mt-2">
-      <button className="btn btn-xs">«</button>
-      <button className="btn btn-xs">1</button>
-      <button className="btn btn-xs btn-active">2</button>
-      <button className="btn btn-xs">3</button>
-      <button className="btn btn-xs">4</button>
-      <button className="btn btn-xs">»</button>
+      <Link to={`/page=${pId - 1 ? pId - 1 : pId}`} className="btn btn-xs">
+        «
+      </Link>
+      <Link to={`/page=${pId}`} className="btn btn-xs btn-active">
+        {pId}
+      </Link>
+      <Link to={`/page=${pId + 1}`} className="btn btn-xs">
+        {pId + 1}
+      </Link>
+      <Link to={`/page=${pId + 2}`} className="btn btn-xs">
+        {pId + 2}
+      </Link>
+      <Link to={`/page=${pId + 3}`} className="btn btn-xs">
+        {pId + 3}
+      </Link>
+      <Link to={`/page=${pId + 1}`} className="btn btn-xs">
+        »
+      </Link>
     </div>
   );
 }

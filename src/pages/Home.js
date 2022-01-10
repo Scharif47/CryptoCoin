@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import YoutubeEmbed from "../components/YoutubeEmbed";
 import styled from "styled-components";
@@ -25,16 +26,21 @@ const InfoWidget = styled.div`
   justify-content: space-between;
   align-items: center;
   background-color: whitesmoke;
+  overflow: hidden;
   width: 18rem;
   height: 7rem;
   border-radius: 1rem;
   padding-right: 0.5rem;
+  margin-bottom: 2rem;
+  filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04))
+    drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 
   @media (min-width: 640px) {
     flex-direction: column;
     padding-right: 0;
     width: 21rem;
     height: 13rem;
+    padding-bottom: 3px;
   }
 `;
 
@@ -55,21 +61,21 @@ function Home() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
 
+  let { pageId } = useParams();
+
   useEffect(() => {
     dispatch(fetchTrending());
     dispatch(fetchGlobalMarketCap());
     dispatch(fetchGainList());
     dispatch(fetchExchangeList());
-    dispatch(fetchCoinList())
-  }, [dispatch]);
+    dispatch(fetchCoinList(pageId));
+  }, [dispatch, pageId]);
 
   /* console.log(state.coingecko); */
 
   /* Initialize Coingecko variables */
   const globalCoins = state.coingecko.globalCap.data;
   const { gainList, coinList, trending, exchangeList } = state.coingecko;
-
-
 
   const activeCoins = globalCoins.active_cryptocurrencies;
   const mcPercentage = globalCoins.market_cap_percentage;
@@ -193,7 +199,7 @@ function Home() {
       </section>
 
       <section className="widgets">
-        <h1 className="text-center mb-10">Check out the latest trends.</h1>
+        <h1 className="text-center mb-6">Check out the latest trends.</h1>
         <div className="flex md:justify-center px-5 space-x-5 whitespace-nowrap overflow-x-scroll">
           <Widget heading={"Trending 🚀"} trending={trending.coins} />
           <Widget heading={"Exchanges ⚖️"} exchangeList={exchangeList} />
@@ -203,8 +209,10 @@ function Home() {
 
       <main>
         <SectionBar />
+
         <Itemlist coinList={coinList} />
-        <Pagination />
+
+        <Pagination pageId={pageId} />
       </main>
     </div>
   );

@@ -8,12 +8,13 @@ const Element = styled.p`
 
   :hover{
     background-color: whitesmoke;
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06))
   }
 `;
 
 function SectionBar() {
   return (
-    <div className='flex space-x-5 sm:space-x-10 justify-center mb-1'>
+    <div className='flex space-x-5 sm:space-x-10 justify-center mb-2'>
       <Element>Cryptocurrency</Element>
       <Element>Categories</Element>
       <Element>DeFi</Element>

@@ -20,7 +20,7 @@ function Itemlist({ coinList }) {
         {coinList.map((coin, i) => (
           <tbody key={coin.id}>
             <tr>
-              <th>{i + 1}</th>
+              <th>{coin.market_cap_rank}</th>
               <td className="hover:bg-gray-100">
                 <Link to={`/coins/${coin.id}`}>
                   {" "}
@@ -43,7 +43,7 @@ function Itemlist({ coinList }) {
                     : "text-red-600"
                 }`}
               >
-                {coin.price_change_percentage_24h.toFixed(2)}
+                {coin.price_change_percentage_24h && coin.price_change_percentage_24h.toFixed(2)}
               </td>
               <td>${coin.market_cap.toLocaleString()}</td>
             </tr>

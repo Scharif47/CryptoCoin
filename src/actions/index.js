@@ -22,10 +22,10 @@ export const fetchGainList = () => {
 };
 
 // Fetch list of 100 coins with pagination for Gainer
-export const fetchCoinList = () => {
+export const fetchCoinList = (pageId = "page=1") => {
   return async (dispatch) => {
     const res = await coingecko.get(
-      `/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=${1}`
+      `/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&${pageId}`
     );
     const coinList = await res.data;
     dispatch({ type: "COINSFETCHED", payload: coinList });
@@ -47,5 +47,31 @@ export const fetchExchangeList = () => {
     const res = await coingecko.get("/exchanges?per_page=20&page=1");
     const exchangeList = await res.data;
     dispatch({ type: "EXCHANGESFETCHED", payload: exchangeList });
+  };
+};
+
+// Fetch data for specific coin
+export const fetchCoinData = (coinId = "bitcoin") => {
+  return async (dispatch) => {
+    const res =
+      await coingecko.get(`https://api.coingecko.com/api/v3/coins/${coinId}
+    `);
+    const coinData = await res.data;
+    dispatch({ type: "COINDATAFETCHED", payload: coinData });
+  };
+};
+
+// Fetch historical price data
+export const fetchChartData = (
+  coinId = "bitcoin",
+  currency = "usd",
+  days = 7
+) => {
+  return async (dispatch) => {
+    const res = await coingecko.get(
+      `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=${currency}&days=${days}`
+    );
+    const chartData = await res.data;
+    dispatch({ type: "CHARTDATAFETCHED", payload: chartData });
   };
 };

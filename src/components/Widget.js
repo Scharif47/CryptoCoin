@@ -2,7 +2,7 @@ import React from "react";
 
 function Widget({ trending, exchangeList, gainList, heading }) {
   return (
-    <article className=" bg-gray-100 px-10 py-5 flex flex-col rounded-2xl mb-16">
+    <article className=" bg-gray-100 px-10 py-5 flex flex-col rounded-2xl mb-16 drop-shadow-lg">
       <h1 className="mb-2">{heading}</h1>
       <ul>
         {trending &&
