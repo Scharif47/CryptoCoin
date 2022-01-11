@@ -65,13 +65,15 @@ export const fetchCoinData = (coinId = "bitcoin") => {
 export const fetchChartData = (
   coinId = "bitcoin",
   currency = "usd",
-  days = 7
+  days = 7,
+  interval = "daily"
 ) => {
   return async (dispatch) => {
     const res = await coingecko.get(
-      `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=${currency}&days=${days}`
+      `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=${currency}&days=${days}&interval=${interval}`
     );
     const chartData = await res.data;
     dispatch({ type: "CHARTDATAFETCHED", payload: chartData });
   };
 };
+console.log();
