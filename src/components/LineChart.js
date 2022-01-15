@@ -3,7 +3,7 @@ import { Line } from "react-chartjs-2";
 // eslint-disable-next-line no-unused-vars
 import { Chart as ChartJS } from "chart.js/auto";
 
-function LineChart({ chartData }) {
+function LineChart({ chartData, coinData }) {
   const dataset = chartData.prices;
 
   const labels = dataset.map((arr) =>
@@ -12,7 +12,7 @@ function LineChart({ chartData }) {
 
   const prices = dataset.map((arr) => Number(arr[1].toFixed(2)));
 
-  /* const coinData = (canvas) => {
+  /* const coinChartData = (canvas) => {
     const ctx = canvas.getContext("2d");
     const gradient = ctx.createLinearGradient(0, 0, 0, 150);
     gradient.addColorStop(0, "rgba(125,0,195, 0.1");
@@ -75,15 +75,21 @@ function LineChart({ chartData }) {
     },
   };
 
-  const coinData = {
+  const coinChartData = {
     labels: labels,
     datasets: [
       {
         label: "USD Price",
         data: prices,
         fill: true,
-        borderColor: "rgba(200, 0, 50, 0.8)",
-        backgroundColor: "rgba(200, 0, 50, 0.7)",
+        borderColor:
+          coinData.market_data.price_change_percentage_24h > 0
+            ? "rgba(0, 200, 50, 0.9)"
+            : "rgba(200, 0, 50, 0.9)",
+        backgroundColor:
+          coinData.market_data.price_change_percentage_24h > 0
+            ? "rgba(0, 200, 50, 0.6)"
+            : "rgba(200, 0, 50, 0.6)",
       },
     ],
   };
@@ -92,7 +98,7 @@ function LineChart({ chartData }) {
     <section className="h-[30rem]">
       <Line
         datasetIdKey="id"
-        data={coinData}
+        data={coinChartData}
         width={100}
         height={50}
         options={options}

@@ -25,7 +25,7 @@ function Coin() {
       <CoinHero coinData={coinData} />
       <CoinList coinData={coinData} />
       <div className=" mt-20">
-        <LineChart chartData={chartData} />
+        <LineChart chartData={chartData} coinData={coinData} />
       </div>
     </section>
   );
