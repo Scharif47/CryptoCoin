@@ -20,8 +20,6 @@ function Coin() {
 
   const { coinData, chartData } = state.coingecko;
 
-  console.log(state.coingecko);
-
   return (
     <section>
       <CoinHero coinData={coinData} />
