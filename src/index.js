@@ -9,10 +9,10 @@ import App from "./App";
 import reducers from "./reducers";
 import reportWebVitals from "./reportWebVitals";
 
-const myStore = createStore(reducers, applyMiddleware(thunk))
+const myStore = createStore(reducers, applyMiddleware(thunk));
 
 ReactDOM.render(
-  <Router>
+  <Router basename={process.env.PUBLIC_URL}>
     <React.StrictMode>
       <Provider store={myStore}>
         <App />
